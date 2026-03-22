@@ -62,8 +62,8 @@ export default function Envelope() {
 
       {!isOpen && (
         <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none pt-16">
-          {/* Text changed to Lavender */}
-          <span className="text-[#a855f7] font-extrabold tracking-widest text-2xl drop-shadow-sm">OPEN ME</span>
+          {/* Lighter, softer lavender text! */}
+          <span className="text-[#e9d5ff] font-extrabold tracking-widest text-2xl drop-shadow-sm">OPEN ME</span>
         </div>
       )}
     </motion.div>

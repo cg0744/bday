@@ -3,7 +3,6 @@ import ProfileCard from '../ProfileCard';
 import Envelope from '../Envelope';
 import Gatekeeper from '../Gatekeeper';
 
-// Importing the images so Vite bundles them correctly
 import chrisImg from '../../assets/Chris-profile.jpg';
 import serraImg from '../../assets/Serra-profile.png';
 
@@ -21,13 +20,13 @@ export default function Section1({ scrollYProgress, setUnlockedSection }) {
     >
       <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-32 w-full max-w-[1500px] mx-auto z-10">
         
-        {/* Left: His Card */}
+        {/* Left: His Card (Blood Orange added) */}
         <motion.div style={{ x: leftExitX }} initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, type: "spring" }}>
           <ProfileCard 
             title="Chris <3" 
             tiltClass="-rotate-6 lg:-rotate-5"
-            imageSrc={chrisImg} // Passed imported image
-            spotifySrc="" 
+            imageSrc={chrisImg}
+            spotifySrc="https://open.spotify.com/embed/track/0AIpGG5dxEgnAymhdJRSZ0?utm_source=generator&theme=0" 
           />
         </motion.div>
 
@@ -42,13 +41,13 @@ export default function Section1({ scrollYProgress, setUnlockedSection }) {
           <Envelope />
         </motion.div>
 
-        {/* Right: Her Card */}
+        {/* Right: Her Card (Needs her specific URL pasted in) */}
         <motion.div style={{ x: rightExitX }} initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.4, type: "spring" }}>
           <ProfileCard 
             title="Serra <3" 
             tiltClass="rotate-6 lg:rotate-5"
-            imageSrc={serraImg} // Passed imported image
-            spotifySrc="" 
+            imageSrc={serraImg}
+            spotifySrc="https://open.spotify.com/embed/track/0ABY8MEr6OcbhujQHHDxwW?utm_source=generator" 
           />
         </motion.div>
 
