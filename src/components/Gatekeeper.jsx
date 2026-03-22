@@ -8,7 +8,6 @@ export default function Gatekeeper({ question, correctAnswers, onUnlock }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     const cleanInput = input.trim().toLowerCase();
     const isCorrect = correctAnswers.some(ans => ans.toLowerCase() === cleanInput);
 
@@ -23,8 +22,10 @@ export default function Gatekeeper({ question, correctAnswers, onUnlock }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-4 mt-6 z-20">
-      <p className="text-lg font-medium text-gray-700 text-center">{question}</p>
+    <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-5 z-20">
+      <p className="text-2xl font-bold text-pink-400 drop-shadow-md text-center tracking-wide">
+        {question}
+      </p>
       
       <div className="relative w-full max-w-[250px]">
         <motion.input
@@ -36,12 +37,13 @@ export default function Gatekeeper({ question, correctAnswers, onUnlock }) {
           }}
           placeholder="Your answer..."
           disabled={isSuccess}
-          className={`w-full px-4 py-3 rounded-2xl border-2 outline-none transition-colors bg-white/80 backdrop-blur-sm ${
+          // Changed the success state from green to pinkish-white
+          className={`w-full px-5 py-3 rounded-2xl border-2 outline-none transition-all shadow-lg font-medium bg-white/50 backdrop-blur-md ${
             isError 
-              ? 'border-pink-500 placeholder-pink-400 text-pink-600'
+              ? 'border-rose-400 placeholder-rose-300 text-rose-600'
               : isSuccess
-              ? 'border-green-400 text-green-600 bg-green-50'
-              : 'border-secondary focus:border-purple-400'
+              ? 'border-pink-300 text-pink-500 bg-white/80 placeholder-pink-300'
+              : 'border-pink-200 placeholder-pink-300 text-gray-700 focus:border-pink-400 focus:bg-white/80'
           }`}
           animate={isError ? { x: [-10, 10, -10, 10, 0] } : {}}
           transition={{ duration: 0.4 }}
@@ -51,7 +53,7 @@ export default function Gatekeeper({ question, correctAnswers, onUnlock }) {
       {!isSuccess && (
         <button
           type="submit"
-          className="px-8 py-3 bg-secondary text-gray-900 rounded-full font-semibold shadow-md hover:shadow-lg transition-all active:scale-95 disabled:opacity-50"
+          className="px-8 py-3 bg-gradient-to-r from-pink-300 to-rose-300 text-white rounded-full font-bold tracking-wide shadow-xl hover:shadow-rose-300/50 transition-all active:scale-95 disabled:opacity-50"
           disabled={!input.trim()}
         >
           Unlock
