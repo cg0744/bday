@@ -30,10 +30,13 @@ function App() {
       {/* SECTION 3: The Tulip Garden */}
       <SectionWrapper id="section-3" isUnlocked={unlockedSection >= 3} isSolved={false}>
         {({ scrollYProgress }) => (
-          <Section3 scrollYProgress={scrollYProgress} />
+          // Notice we removed the motion.div with the white background!
+          // We also use negative margins (-mx-6) to pull the garden perfectly to the edges of the screen, ignoring the padding.
+          <div className="w-[calc(100%+3rem)] -mx-6">
+            <Section3 scrollYProgress={scrollYProgress} />
+          </div>
         )}
       </SectionWrapper>
-
     </main>
   );
 }

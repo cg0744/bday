@@ -1,31 +1,46 @@
 import { motion } from 'framer-motion';
 
-export default function Tulip({ color, onClick }) {
+export default function Tulip({ color, delay, duration }) {
   return (
-    <motion.svg
-      // Wiggle on hover, squish slightly when clicked!
-      whileHover={{ scale: 1.1, rotate: [-3, 3, -3], transition: { repeat: Infinity, duration: 0.8 } }}
-      whileTap={{ scale: 0.9 }}
-      onClick={onClick}
-      className="w-16 h-24 md:w-20 md:h-32 cursor-pointer drop-shadow-md origin-bottom z-20 relative"
-      viewBox="0 0 100 150"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+    <motion.div
+      className="w-full h-full origin-bottom flex justify-center items-end drop-shadow-md"
+      // The wind effect! Swaying back and forth seamlessly.
+      animate={{ rotate: [-3, 5, -2, 4, -3] }}
+      transition={{
+        repeat: Infinity,
+        duration: duration,
+        delay: delay,
+        ease: "easeInOut"
+      }}
     >
-      {/* Stem */}
-      <path d="M50 70 V 140" stroke="#a7f3d0" strokeWidth="6" strokeLinecap="round" />
-      
-      {/* Left Leaf */}
-      <path d="M50 120 C 30 120 10 90 20 70 C 25 85 40 105 50 110" fill="#a7f3d0" />
-      
-      {/* Right Leaf */}
-      <path d="M50 110 C 70 110 90 80 80 60 C 75 75 60 95 50 100" fill="#a7f3d0" />
-      
-      {/* Main Back Petal Base */}
-      <path d="M25 40 C 25 80 75 80 75 40 C 75 10 50 20 50 20 C 50 20 25 10 25 40 Z" fill={color} />
-      
-      {/* Front Center Petal Overlay (Creates depth!) */}
-      <path d="M38 30 C 38 70 62 70 62 30 C 62 15 50 10 50 10 C 50 10 38 15 38 30 Z" fill="rgba(255,255,255,0.25)" />
-    </motion.svg>
+      <svg 
+        viewBox="0 0 200 400" 
+        className="w-full h-full overflow-visible"
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Curving Stem */}
+        <path d="M100,120 Q95,250 100,400" stroke="#86efac" strokeWidth="6" strokeLinecap="round" />
+        
+        {/* Sweeping Left Leaf */}
+        <path d="M100,350 Q50,280 20,220 Q60,260 100,300" fill="#6ee7b7" />
+        
+        {/* Sweeping Right Leaf */}
+        <path d="M100,320 Q150,250 180,180 Q140,230 100,280" fill="#34d399" />
+        
+        {/* --- FLOWER HEAD --- */}
+        {/* Back Wide Petal */}
+        <path d="M40,100 C40,180 160,180 160,100 C160,30 120,50 100,70 C80,50 40,30 40,100 Z" fill={color} />
+        
+        {/* Left Inner Petal (Adds highlight/depth) */}
+        <path d="M60,90 C60,150 100,160 100,160 C100,160 100,90 85,60 C75,70 65,80 60,90 Z" fill="rgba(255,255,255,0.25)" />
+        
+        {/* Right Inner Petal (Adds shadow/depth) */}
+        <path d="M140,90 C140,150 100,160 100,160 C100,160 100,90 115,60 C125,70 135,80 140,90 Z" fill="rgba(0,0,0,0.15)" />
+        
+        {/* Center Front Petal */}
+        <path d="M75,110 C75,160 125,160 125,110 C125,60 100,55 100,55 C100,55 75,60 75,110 Z" fill={color} />
+      </svg>
+    </motion.div>
   );
 }
