@@ -41,9 +41,9 @@ export default function Envelope() {
         className="absolute left-6 right-6 top-6 bottom-6 bg-white/95 rounded-lg shadow-sm p-8 flex items-center justify-center text-center z-10"
       >
         <p className="text-rose-600 font-bold text-2xl leading-tight">
-          Happy Birthday, Serra! ❤️
+          Happy Birthday Serra! ❤️
           <br />
-          <span className="text-lg text-gray-500 mt-3 block">(Your message goes here)</span>
+          <span className="text-lg text-pink-500 mt-3 block">the prettiest woman with the sweetest smile just like  <br></br> <span className="text-yellow-500">honey</span></span>
         </p>
       </motion.div>
 

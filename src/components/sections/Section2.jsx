@@ -154,7 +154,7 @@ export default function Section2({ setUnlockedSection }) {
       <div className="mt-32 w-full max-w-md p-8 z-20 rotate-2 hover:rotate-0 transition-transform">
         <Gatekeeper 
           question="what is your favourite flower?" 
-          correctAnswers={["Lavender Tulips", "Tulips"]} 
+          correctAnswers={["Lavender Tulips", "Tulips", "tulip"]} 
           onUnlock={() => setUnlockedSection(3)}
         />
       </div>
