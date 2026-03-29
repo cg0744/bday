@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function ProfileCard({ title, spotifySrc, imageSrc, tiltClass }) {
-  // Using React state to track image loading errors instead of direct DOM manipulation
+  /* Image error state */
   const [imgError, setImgError] = useState(false);
 
   return (
@@ -11,7 +11,7 @@ export default function ProfileCard({ title, spotifySrc, imageSrc, tiltClass }) 
       transition={{ type: "spring", stiffness: 300 }}
       className={`w-full max-w-[320px] flex flex-col items-center gap-6 ${tiltClass} z-10`}
     >
-      {/* Massive Floating Rectangular Image */}
+      {/* Profile image */}
       <div className="w-64 h-80 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-4 border-white/40 bg-pink-100/50 flex items-center justify-center">
         {!imgError ? (
           <img 
@@ -25,12 +25,12 @@ export default function ProfileCard({ title, spotifySrc, imageSrc, tiltClass }) 
         )}
       </div>
       
-      {/* Name in Lavender */}
+      {/* Profile name */}
       <div className="text-center">
         <h2 className="text-4xl font-extrabold text-[#c084fc] drop-shadow-md">{title}</h2>
       </div>
 
-      {/* Sleek Spotify */}
+      {/* Spotify embed */}
       <div className="w-full h-[80px] rounded-xl overflow-hidden shadow-2xl border border-white/30">
         {spotifySrc ? (
           <iframe 

@@ -12,6 +12,7 @@ import aoharuImg from '../../assets/ao-haru-ride.jpg';
 const timelineData = [
   {
     id: 1,
+    /* First face reveals */
     title: "our first face reveals.",
     text: "Soso was so bold asking Koko for his face reveal first and you were so cute asking about it <3",
     align: "left", 
@@ -19,6 +20,7 @@ const timelineData = [
   },
   {
     id: 2,
+    /* Minecraft empire - seed 9099873890317625815 */
     title: "our minecraft empire",
     text: "Playing minecraft with you is one of my favourite way of spending time with you, you're always so cute how you kiss my cheek koko feels like eating you",
     align: "right", 
@@ -26,6 +28,7 @@ const timelineData = [
   },
   {
     id: 3,
+    /* Roblox */
     title: "roblox",
     text: "we always have fun on roblox and you always make me laugh, we slap eachother, carry eachother, even kill eachother and the next second we sit together as pinquins near a campfire",
     align: "left",
@@ -33,6 +36,7 @@ const timelineData = [
   },
   {
     id: 4,
+    /* Movies */
     title: "movies",
     text: "I always look forward to watching another one of your movies they're all amazing",
     align: "right",
@@ -53,7 +57,7 @@ export default function Section2({ setUnlockedSection }) {
   return (
     <div ref={containerRef} className="relative w-full min-h-screen py-32 flex flex-col items-center overflow-hidden">
       
-      {/* Title & Date Section */}
+      {/* Title section */}
       <div className="text-center mb-24 z-10">
         <motion.h1 
           initial={{ opacity: 0, y: -50 }} 
@@ -75,6 +79,7 @@ export default function Section2({ setUnlockedSection }) {
 
       <div className="relative w-full max-w-5xl mx-auto flex flex-col gap-40 pb-32">
         
+        {/* Timeline line */}
         <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[200px] h-full pointer-events-none z-0 drop-shadow-[0_4px_6px_rgba(192,132,252,0.4)]">
           <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 200 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
             <motion.path 
@@ -103,15 +108,15 @@ export default function Section2({ setUnlockedSection }) {
             >
               <div className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-16 w-full lg:w-[55%] ${isLeft ? "lg:pr-12" : "lg:pl-12 lg:flex-row-reverse"}`}>
                 
-                {/* WIDER CONTAINER TO SPREAD IMAGES */}
+                {/* Image container */}
                 <div className="relative w-80 h-80 md:w-[360px] md:h-[360px] flex-shrink-0 z-20">
                   {item.images.length > 1 ? (
                     <>
-                      {/* Back Image (Pushed top-left and tilted more) */}
+                      {/* Back image */}
                       <div className="absolute top-0 left-0 w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-pink-200 -rotate-12 transition-transform duration-300 hover:-rotate-6 z-10 bg-pink-100/50">
                         <img src={item.images[0]} alt="Memory Back" className="w-full h-full object-cover" />
                       </div>
-                      {/* Front Image (Pushed bottom-right) */}
+                      {/* Front image */}
                       <div className="absolute bottom-0 right-0 w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-pink-200 rotate-6 transition-transform duration-300 hover:rotate-12 z-20 bg-pink-100/50">
                         <img src={item.images[1]} alt="Memory Front" className="w-full h-full object-cover" />
                       </div>
@@ -123,6 +128,7 @@ export default function Section2({ setUnlockedSection }) {
                   )}
                 </div>
 
+                {/* Description container */}
                 <div className={`relative w-full max-w-[300px] transition-transform duration-300 drop-shadow-[0_0_6px_#fbcfe8] drop-shadow-[0_10px_20px_rgba(0,0,0,0.1)] ${tiltClass} ${isLeft ? "lg:-ml-8" : "lg:-mr-8"}`}>
                   
                   <div className="absolute -top-8 left-6 w-28 h-28 bg-white/95 rounded-full z-0"></div>
@@ -139,7 +145,6 @@ export default function Section2({ setUnlockedSection }) {
 
                   <div className="bg-white/95 p-8 rounded-[3rem] relative z-10">
                     <h3 className="text-2xl font-extrabold text-pink-400 mb-2">{item.title}</h3>
-                    {/* Updated text color to match the pink border! */}
                     <p className="text-pink-300 font-semibold leading-relaxed text-base">{item.text}</p>
                   </div>
 

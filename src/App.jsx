@@ -13,25 +13,24 @@ function App() {
       
       <FloatingHearts />
       
-      {/* SECTION 1: The Greeting */}
+      {/* Section 1 */}
       <SectionWrapper id="section-1" isUnlocked={unlockedSection >= 1} isSolved={unlockedSection > 1}>
         {({ scrollYProgress }) => (
           <Section1 scrollYProgress={scrollYProgress} setUnlockedSection={setUnlockedSection} />
         )}
       </SectionWrapper>
 
-      {/* SECTION 2: Our Story Timeline */}
+      {/* Section 2 */}
       <SectionWrapper id="section-2" isUnlocked={unlockedSection >= 2} isSolved={unlockedSection > 2}>
         {({ scrollYProgress }) => (
           <Section2 scrollYProgress={scrollYProgress} setUnlockedSection={setUnlockedSection} />
         )}
       </SectionWrapper>
 
-      {/* SECTION 3: The Tulip Garden */}
+      {/* Section 3 */}
       <SectionWrapper id="section-3" isUnlocked={unlockedSection >= 3} isSolved={false}>
         {({ scrollYProgress }) => (
-          // Notice we removed the motion.div with the white background!
-          // We also use negative margins (-mx-6) to pull the garden perfectly to the edges of the screen, ignoring the padding.
+          // Garden container
           <div className="w-[calc(100%+3rem)] -mx-6">
             <Section3 scrollYProgress={scrollYProgress} />
           </div>

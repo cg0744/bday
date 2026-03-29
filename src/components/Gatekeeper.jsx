@@ -28,6 +28,7 @@ export default function Gatekeeper({ question, correctAnswers, onUnlock }) {
       </p>
       
       <div className="relative w-full max-w-[250px]">
+        {/* Input styling */}
         <motion.input
           type="text"
           value={input}
@@ -37,7 +38,6 @@ export default function Gatekeeper({ question, correctAnswers, onUnlock }) {
           }}
           placeholder="Your answer..."
           disabled={isSuccess}
-          // Changed the success state from green to pinkish-white
           className={`w-full px-5 py-3 rounded-2xl border-2 outline-none transition-all shadow-lg font-medium bg-white/50 backdrop-blur-md ${
             isError 
               ? 'border-rose-400 placeholder-rose-300 text-rose-600'

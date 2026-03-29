@@ -5,31 +5,29 @@ export default function Section3() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.6 });
 
-  // --- 1. Generate Meadow Data (Fully Scattered Grass Clusters) ---
+  /* Meadow data generation */
   const clusters = useMemo(() => {
     const numClusters = 7; 
     return Array.from({ length: numClusters }, () => {
-      // Pick a completely random X coordinate across the main visible area
+      /* Random X coordinate */
       const xOff = 10 + Math.random() * 80;
 
-      // Calculate the exact Y coordinate of the hill's horizon at this X position
-      // The path is M 0 100 L 0 50 Q 50 0 100 50. The curve is a quadratic bezier.
+      /* Horizon Y coordinate */
       const t = xOff / 100;
       const horizonY = 50 * (1 - 2 * t + 2 * t * t);
 
-      // THE FIX: Place them anywhere between just below the horizon (horizonY + 4) 
-      // and the very bottom of the hill (98)
+      /* Y boundary limits */
       const minY = horizonY + 4;
       const maxY = 90;
       const yOff = minY + Math.random() * (maxY - minY); 
 
-      // 3 to 4 simple blades per cluster
+      /* Blade count */
       const numBlades = 3 + Math.floor(Math.random() * 2);
       const blades = Array.from({ length: numBlades }, () => {
         const scale = 0.8 + Math.random() * 0.4; 
         const rotate = -25 + Math.random() * 50; 
         
-        // One single, perfectly clean, simple grass blade shape
+        /* Grass blade path */
         const d = "M -1.5 0 Q 1 -6 3 -10 Q 0 -5 1.5 0 Z";
         
         return { d, scale, rotate };
@@ -39,7 +37,7 @@ export default function Section3() {
     });
   }, []);
 
-  // --- 2. Animation Variants ---
+  /* Animation variants */
   const stemGrow = {
     hidden: { pathLength: 0 },
     visible: { pathLength: 1, transition: { duration: 2.5, ease: "easeInOut" } }
@@ -55,7 +53,7 @@ export default function Section3() {
     visible: { scale: 1, rotate: endRotation, transition: { delay, duration: 1.8, ease: [0.22, 1, 0.36, 1] } }
   });
 
-  // Grass waits 1.6s (until the hill is fully in place) then pops up sequentially
+  /* Sequential grass animation */
   const grassGrow = {
     hidden: { scale: 0 },
     visible: (idx) => ({
@@ -64,7 +62,7 @@ export default function Section3() {
     })
   };
 
-  // Only applied to the flower now, not the hill!
+  /* Flower sway animation */
   const swayVariants = {
     hidden: { rotate: 0 },
     visible: {
@@ -76,7 +74,7 @@ export default function Section3() {
   return (
     <div className="relative w-full min-h-[100dvh] flex flex-col items-center justify-between overflow-hidden pt-24 bg-transparent -mb-8">
       
-      {/* Title */}
+      {/* Section title */}
       <motion.div 
         className="text-center z-50 px-6"
         initial={{ opacity: 0, y: 20 }}
@@ -88,7 +86,7 @@ export default function Section3() {
         </h1>
       </motion.div>
 
-      {/* === BACKGROUND HILL (Solid and Still) === */}
+      {/* Background hill */}
       <div className="absolute inset-x-0 bottom-0 w-full h-[20vh] md:h-[25vh] z-10 pointer-events-none flex items-end translate-y-2 scale-x-105">
         
         <svg 
@@ -103,7 +101,7 @@ export default function Section3() {
             </linearGradient>
           </defs>
 
-          {/* Hill Path */}
+          {/* Hill path */}
           <motion.path 
             d="M 0 100 L 0 50 Q 50 0 100 50 L 100 100 Z" 
             fill="url(#groundGrad)"
@@ -112,7 +110,7 @@ export default function Section3() {
             transition={{ duration: 1.5, ease: "easeOut" }} 
           />
 
-          {/* Scattered Grass Clusters */}
+          {/* Grass clusters */}
           <g>
             {clusters.map((cluster, cIdx) => (
               <g key={cIdx} transform={`translate(${cluster.x}, ${cluster.y})`}>
@@ -138,7 +136,7 @@ export default function Section3() {
         </svg>
       </div>
 
-      {/* === FOREGROUND FLOWER === */}
+      {/* Foreground flower */}
       <div ref={containerRef} className="relative w-full max-w-sm md:max-w-md h-[70vh] md:h-[80vh] mt-auto flex justify-center items-end z-20 pb-[8vh] md:pb-[10vh]">
         
         <motion.svg 
@@ -182,7 +180,7 @@ export default function Section3() {
             </linearGradient>
           </defs>
 
-          {/* STEM & LEAVES */}
+          {/* Stem and leaves section */}
           <g>
             <motion.path 
               d="M 200 700 Q 185 450 200 240" 
@@ -208,7 +206,7 @@ export default function Section3() {
             />
           </g>
 
-          {/* TULIP PETALS */}
+          {/* Petals section */}
           <g>
             <motion.path 
               d="M 200 240 C 150 230 140 90 170 60 C 185 45 215 45 230 60 C 260 90 250 230 200 240 Z" 

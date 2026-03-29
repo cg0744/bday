@@ -20,7 +20,7 @@ export default function Section1({ scrollYProgress, setUnlockedSection }) {
     >
       <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-32 w-full max-w-[1500px] mx-auto z-10">
         
-        {/* Left: His Card (Blood Orange added) */}
+        {/* Left profile card */}
         <motion.div style={{ x: leftExitX }} initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, type: "spring" }}>
           <ProfileCard 
             title="Chris <3" 
@@ -30,7 +30,7 @@ export default function Section1({ scrollYProgress, setUnlockedSection }) {
           />
         </motion.div>
 
-        {/* Center: The Envelope */}
+        {/* Center envelope */}
         <motion.div 
           style={{ y: centerExitY }} 
           className="mt-40 mb-10 lg:my-0"
@@ -41,7 +41,7 @@ export default function Section1({ scrollYProgress, setUnlockedSection }) {
           <Envelope />
         </motion.div>
 
-        {/* Right: Her Card (Needs her specific URL pasted in) */}
+        {/* Right profile card */}
         <motion.div style={{ x: rightExitX }} initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.4, type: "spring" }}>
           <ProfileCard 
             title="Serra <3" 
@@ -53,7 +53,7 @@ export default function Section1({ scrollYProgress, setUnlockedSection }) {
 
       </div>
 
-      {/* The Gatekeeper */}
+      {/* Gatekeeper */}
       <motion.div 
         style={{ y: gateExitY }}
         className="mt-12 lg:mt-0 lg:absolute lg:bottom-16 lg:left-16 w-full lg:w-auto px-6 lg:px-0 z-20 flex justify-center lg:justify-start -rotate-3"

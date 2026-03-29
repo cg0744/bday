@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Richer whitish-pink and a soft rose for the floating hearts */
+  /* Theme colors */
   --color-primary: #FCE7F3; 
   --color-secondary: #E9D5FF;
   --color-rose-light: #FECDD3;
