@@ -30,7 +30,8 @@ export default function Section3() {
   };
 
   return (
-    <div className="relative w-full min-h-[100dvh] flex flex-col items-center justify-between overflow-hidden pt-24 pb-0 bg-transparent">
+    // ADDED: -mb-8 to pull the entire section down over the parent's padding
+    <div className="relative w-full min-h-[100dvh] flex flex-col items-center justify-between overflow-hidden pt-24 bg-transparent -mb-8">
       
       {/* Title */}
       <motion.div 
@@ -45,7 +46,8 @@ export default function Section3() {
       </motion.div>
 
       {/* --- BACKGROUND HILL --- */}
-      <div className="absolute inset-x-0 bottom-0 w-full h-[20vh] md:h-[25vh] z-10 pointer-events-none flex items-end translate-y-1">
+      {/* ADDED: translate-y-2 and scale-x-105 to ensure it bleeds perfectly off the screen edges */}
+      <div className="absolute inset-x-0 bottom-0 w-full h-[20vh] md:h-[25vh] z-10 pointer-events-none flex items-end translate-y-2 scale-x-105">
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
           <defs>
             <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
@@ -65,10 +67,10 @@ export default function Section3() {
 
       {/* --- FOREGROUND FLOWER --- */}
       <div ref={containerRef} className="relative w-full max-w-sm md:max-w-md h-[70vh] md:h-[80vh] mt-auto flex justify-center items-end z-20 pb-[8vh] md:pb-[10vh]">
-  
+        
         <motion.svg 
           viewBox="-50 0 500 700" 
-          preserveAspectRatio="xMidYMax meet" /* <--- ADD THIS LINE */
+          preserveAspectRatio="xMidYMax meet"
           className="w-full h-full overflow-visible drop-shadow-2xl"
           variants={swayVariants}
           initial="hidden"
@@ -109,7 +111,7 @@ export default function Section3() {
 
           {/* === STEM & LEAVES === */}
           <g>
-            {/* Stem ending exactly at 200, 240 */}
+            {/* Stem */}
             <motion.path 
               d="M 200 700 Q 185 450 200 240" 
               stroke="url(#stemGrad)" 
