@@ -1,11 +1,45 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 export default function Section3() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.6 });
 
-  // --- Animation Variants ---
+  // --- 1. Generate Meadow Data (Fully Scattered Grass Clusters) ---
+  const clusters = useMemo(() => {
+    const numClusters = 7; 
+    return Array.from({ length: numClusters }, () => {
+      // Pick a completely random X coordinate across the main visible area
+      const xOff = 10 + Math.random() * 80;
+
+      // Calculate the exact Y coordinate of the hill's horizon at this X position
+      // The path is M 0 100 L 0 50 Q 50 0 100 50. The curve is a quadratic bezier.
+      const t = xOff / 100;
+      const horizonY = 50 * (1 - 2 * t + 2 * t * t);
+
+      // THE FIX: Place them anywhere between just below the horizon (horizonY + 4) 
+      // and the very bottom of the hill (98)
+      const minY = horizonY + 4;
+      const maxY = 90;
+      const yOff = minY + Math.random() * (maxY - minY); 
+
+      // 3 to 4 simple blades per cluster
+      const numBlades = 3 + Math.floor(Math.random() * 2);
+      const blades = Array.from({ length: numBlades }, () => {
+        const scale = 0.8 + Math.random() * 0.4; 
+        const rotate = -25 + Math.random() * 50; 
+        
+        // One single, perfectly clean, simple grass blade shape
+        const d = "M -1.5 0 Q 1 -6 3 -10 Q 0 -5 1.5 0 Z";
+        
+        return { d, scale, rotate };
+      });
+
+      return { x: xOff, y: yOff, blades };
+    });
+  }, []);
+
+  // --- 2. Animation Variants ---
   const stemGrow = {
     hidden: { pathLength: 0 },
     visible: { pathLength: 1, transition: { duration: 2.5, ease: "easeInOut" } }
@@ -21,6 +55,16 @@ export default function Section3() {
     visible: { scale: 1, rotate: endRotation, transition: { delay, duration: 1.8, ease: [0.22, 1, 0.36, 1] } }
   });
 
+  // Grass waits 1.6s (until the hill is fully in place) then pops up sequentially
+  const grassGrow = {
+    hidden: { scale: 0 },
+    visible: (idx) => ({
+      scale: 1,
+      transition: { delay: 1.6 + (idx * 0.15), duration: 0.6, ease: "backOut" }
+    })
+  };
+
+  // Only applied to the flower now, not the hill!
   const swayVariants = {
     hidden: { rotate: 0 },
     visible: {
@@ -30,7 +74,6 @@ export default function Section3() {
   };
 
   return (
-    // ADDED: -mb-8 to pull the entire section down over the parent's padding
     <div className="relative w-full min-h-[100dvh] flex flex-col items-center justify-between overflow-hidden pt-24 bg-transparent -mb-8">
       
       {/* Title */}
@@ -45,34 +88,64 @@ export default function Section3() {
         </h1>
       </motion.div>
 
-      {/* --- BACKGROUND HILL --- */}
-      {/* ADDED: translate-y-2 and scale-x-105 to ensure it bleeds perfectly off the screen edges */}
+      {/* === BACKGROUND HILL (Solid and Still) === */}
       <div className="absolute inset-x-0 bottom-0 w-full h-[20vh] md:h-[25vh] z-10 pointer-events-none flex items-end translate-y-2 scale-x-105">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
+        
+        <svg 
+          viewBox="0 0 100 100" 
+          preserveAspectRatio="none" 
+          className="w-full h-full overflow-visible"
+        >
           <defs>
             <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#86efac" stopOpacity="0.4" />
               <stop offset="100%" stopColor="#14532d" stopOpacity="0.8" />
             </linearGradient>
           </defs>
+
+          {/* Hill Path */}
           <motion.path 
             d="M 0 100 L 0 50 Q 50 0 100 50 L 100 100 Z" 
             fill="url(#groundGrad)"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            transition={{ duration: 1.5, ease: "easeOut" }} 
           />
+
+          {/* Scattered Grass Clusters */}
+          <g>
+            {clusters.map((cluster, cIdx) => (
+              <g key={cIdx} transform={`translate(${cluster.x}, ${cluster.y})`}>
+                <motion.g
+                  custom={cIdx}
+                  variants={grassGrow} 
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  style={{ transformOrigin: "0px 0px" }}
+                >
+                  {cluster.blades.map((blade, bIdx) => (
+                    <path
+                      key={bIdx}
+                      d={blade.d}
+                      fill="#15803d" 
+                      transform={`scale(${blade.scale}) rotate(${blade.rotate})`}
+                    />
+                  ))}
+                </motion.g>
+              </g>
+            ))}
+          </g>
         </svg>
       </div>
 
-      {/* --- FOREGROUND FLOWER --- */}
+      {/* === FOREGROUND FLOWER === */}
       <div ref={containerRef} className="relative w-full max-w-sm md:max-w-md h-[70vh] md:h-[80vh] mt-auto flex justify-center items-end z-20 pb-[8vh] md:pb-[10vh]">
         
         <motion.svg 
           viewBox="-50 0 500 700" 
           preserveAspectRatio="xMidYMax meet"
           className="w-full h-full overflow-visible drop-shadow-2xl"
-          variants={swayVariants}
+          variants={swayVariants} 
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           style={{ transformOrigin: "200px 700px" }}
@@ -109,9 +182,8 @@ export default function Section3() {
             </linearGradient>
           </defs>
 
-          {/* === STEM & LEAVES === */}
+          {/* STEM & LEAVES */}
           <g>
-            {/* Stem */}
             <motion.path 
               d="M 200 700 Q 185 450 200 240" 
               stroke="url(#stemGrad)" 
@@ -121,7 +193,6 @@ export default function Section3() {
               variants={stemGrow}
             />
 
-            {/* Right Leaf */}
             <motion.path 
               d="M 202 500 C 290 470 380 340 350 180 C 310 290 240 390 202 500 Z" 
               fill="url(#leafGradRight)" 
@@ -129,7 +200,6 @@ export default function Section3() {
               style={{ transformOrigin: "200px 500px", transformBox: "view-box" }}
             />
 
-            {/* Left Leaf */}
             <motion.path 
               d="M 198 450 C 100 430 20 300 40 150 C 80 260 140 350 198 450 Z" 
               fill="url(#leafGradLeft)" 
@@ -138,9 +208,8 @@ export default function Section3() {
             />
           </g>
 
-          {/* === TULIP PETALS === */}
+          {/* TULIP PETALS */}
           <g>
-            {/* Back Petal */}
             <motion.path 
               d="M 200 240 C 150 230 140 90 170 60 C 185 45 215 45 230 60 C 260 90 250 230 200 240 Z" 
               fill="url(#petalBack)" 
@@ -148,7 +217,6 @@ export default function Section3() {
               style={{ transformOrigin: "200px 240px", transformBox: "view-box" }} 
             />
 
-            {/* Left Outer Petal */}
             <motion.path 
               d="M 200 240 C 100 220 100 80 150 40 C 175 20 190 70 200 130 C 200 170 205 220 200 240 Z" 
               fill="url(#petalSide)" 
@@ -157,7 +225,6 @@ export default function Section3() {
               style={{ transformOrigin: "200px 240px", transformBox: "view-box" }} 
             />
 
-            {/* Right Outer Petal */}
             <motion.path 
               d="M 200 240 C 300 220 300 80 250 40 C 225 20 210 70 200 130 C 200 170 195 220 200 240 Z" 
               fill="url(#petalSide)" 
@@ -166,7 +233,6 @@ export default function Section3() {
               style={{ transformOrigin: "200px 240px", transformBox: "view-box" }} 
             />
 
-            {/* Center Front Petal */}
             <motion.path 
               d="M 200 240 C 160 180 160 100 200 60 C 240 100 240 180 200 240 Z" 
               fill="url(#petalFront)" 
