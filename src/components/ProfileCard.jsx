@@ -2,22 +2,21 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function ProfileCard({ title, spotifySrc, imageSrc, tiltClass }) {
-  /* Image error state */
   const [imgError, setImgError] = useState(false);
 
   return (
     <motion.div
       whileHover={{ y: -15, rotate: 0 }}
       transition={{ type: "spring", stiffness: 300 }}
-      className={`w-full max-w-[320px] flex flex-col items-center gap-6 ${tiltClass} z-10`}
+      className={`w-full max-w-[320px] flex flex-col items-center gap-6 ${tiltClass} z-10 group`}
     >
-      {/* Profile image */}
-      <div className="w-64 h-80 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-4 border-white/40 bg-pink-100/50 flex items-center justify-center">
+      {/* Profile image with Glassmorphism */}
+      <div className="w-64 h-80 rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(244,114,182,0.2)] border-[3px] border-white/50 bg-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-500 group-hover:shadow-[0_15px_40px_rgba(244,114,182,0.4)] group-hover:border-white/80">
         {!imgError ? (
           <img 
             src={imageSrc} 
             alt={title} 
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
             onError={() => setImgError(true)}
           />
         ) : (
@@ -25,13 +24,15 @@ export default function ProfileCard({ title, spotifySrc, imageSrc, tiltClass }) 
         )}
       </div>
       
-      {/* Profile name */}
+      {/* Profile name using the new Serif font */}
       <div className="text-center">
-        <h2 className="text-4xl font-extrabold text-[#c084fc] drop-shadow-md">{title}</h2>
+        <h2 className="text-5xl font-serif italic font-extrabold text-purple-light drop-shadow-md">
+          {title}
+        </h2>
       </div>
 
       {/* Spotify embed */}
-      <div className="w-full h-[80px] rounded-xl overflow-hidden shadow-2xl border border-white/30">
+      <div className="w-full h-[80px] rounded-2xl overflow-hidden shadow-xl border border-white/40 bg-white/30 backdrop-blur-sm transition-all group-hover:border-white/60">
         {spotifySrc ? (
           <iframe 
             src={spotifySrc} 
@@ -41,7 +42,7 @@ export default function ProfileCard({ title, spotifySrc, imageSrc, tiltClass }) 
             allow="encrypted-media"
           ></iframe>
         ) : (
-          <div className="w-full h-full bg-black/10 flex items-center justify-center text-sm text-gray-500 backdrop-blur-sm">
+          <div className="w-full h-full flex items-center justify-center text-sm text-purple-400 font-medium">
             Spotify Placeholder
           </div>
         )}

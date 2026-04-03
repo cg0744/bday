@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import Gatekeeper from '../Gatekeeper';
 
 import chrisMem1 from '../../assets/section-2-chris.jpg';
@@ -12,7 +12,6 @@ import aoharuImg from '../../assets/ao-haru-ride.jpg';
 const timelineData = [
   {
     id: 1,
-    /* First face reveals */
     title: "our first face reveals.",
     text: "Soso was so bold asking Koko for his face reveal first and you were so cute asking about it <3",
     align: "left", 
@@ -20,7 +19,6 @@ const timelineData = [
   },
   {
     id: 2,
-    /* Minecraft empire - seed 9099873890317625815 */
     title: "our minecraft empire",
     text: "Playing minecraft with you is one of my favourite way of spending time with you, you're always so cute how you kiss my cheek koko feels like eating you",
     align: "right", 
@@ -28,7 +26,6 @@ const timelineData = [
   },
   {
     id: 3,
-    /* Roblox */
     title: "roblox",
     text: "we always have fun on roblox and you always make me laugh, we slap eachother, carry eachother, even kill eachother and the next second we sit together as pinquins near a campfire",
     align: "left",
@@ -36,7 +33,6 @@ const timelineData = [
   },
   {
     id: 4,
-    /* Movies */
     title: "movies",
     text: "I always look forward to watching another one of your movies they're all amazing",
     align: "right",
@@ -46,6 +42,7 @@ const timelineData = [
 
 export default function Section2({ setUnlockedSection }) {
   const containerRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -57,6 +54,26 @@ export default function Section2({ setUnlockedSection }) {
   return (
     <div ref={containerRef} className="relative w-full min-h-screen py-32 flex flex-col items-center overflow-hidden">
       
+      {/* Lightbox Overlay */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 cursor-zoom-out"
+          >
+            <motion.img 
+              layoutId={`img-${selectedImage}`}
+              src={selectedImage}
+              className="max-w-full max-h-[90vh] rounded-2xl shadow-2xl object-contain"
+            />
+            <p className="absolute bottom-10 text-white/60 font-medium tracking-widest text-sm uppercase">Tap anywhere to close</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Title section */}
       <div className="text-center mb-24 z-10">
         <motion.h1 
@@ -113,17 +130,26 @@ export default function Section2({ setUnlockedSection }) {
                   {item.images.length > 1 ? (
                     <>
                       {/* Back image */}
-                      <div className="absolute top-0 left-0 w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-pink-200 -rotate-12 transition-transform duration-300 hover:-rotate-6 z-10 bg-pink-100/50">
-                        <img src={item.images[0]} alt="Memory Back" className="w-full h-full object-cover" />
+                      <div 
+                        onClick={() => setSelectedImage(item.images[0])}
+                        className="absolute top-0 left-0 w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden shadow-lg border-4 border-pink-200 -rotate-12 transition-transform duration-300 hover:-rotate-6 z-10 bg-pink-100/50 cursor-zoom-in"
+                      >
+                        <motion.img layoutId={`img-${item.images[0]}`} src={item.images[0]} alt="Memory Back" className="w-full h-full object-cover" />
                       </div>
                       {/* Front image */}
-                      <div className="absolute bottom-0 right-0 w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-pink-200 rotate-6 transition-transform duration-300 hover:rotate-12 z-20 bg-pink-100/50">
-                        <img src={item.images[1]} alt="Memory Front" className="w-full h-full object-cover" />
+                      <div 
+                        onClick={() => setSelectedImage(item.images[1])}
+                        className="absolute bottom-0 right-0 w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-pink-200 rotate-6 transition-transform duration-300 hover:rotate-12 z-20 bg-pink-100/50 cursor-zoom-in"
+                      >
+                        <motion.img layoutId={`img-${item.images[1]}`} src={item.images[1]} alt="Memory Front" className="w-full h-full object-cover" />
                       </div>
                     </>
                   ) : (
-                    <div className="w-64 h-64 md:w-72 md:h-72 mx-auto mt-4 rounded-3xl bg-pink-100/80 shadow-[0_15px_30px_rgba(0,0,0,0.15)] border-4 border-pink-200 flex items-center justify-center overflow-hidden -rotate-2 hover:rotate-0 transition-transform duration-300">
-                      <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
+                    <div 
+                      onClick={() => setSelectedImage(item.images[0])}
+                      className="w-64 h-64 md:w-72 md:h-72 mx-auto mt-4 rounded-3xl bg-pink-100/80 shadow-[0_15px_30px_rgba(0,0,0,0.15)] border-4 border-pink-200 flex items-center justify-center overflow-hidden -rotate-2 hover:rotate-0 transition-transform duration-300 cursor-zoom-in"
+                    >
+                      <motion.img layoutId={`img-${item.images[0]}`} src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                     </div>
                   )}
                 </div>

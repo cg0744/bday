@@ -1,31 +1,52 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function FloatingHearts() {
   const [hearts, setHearts] = useState([]);
+  
+  // Hook into scroll position for Parallax Effect
+  const { scrollYProgress } = useScroll();
+  
+  // As the user scrolls to the bottom (1), move the hearts container up by 350px
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -350]);
 
   useEffect(() => {
-    const newHearts = Array.from({ length: 20 }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      size: Math.random() * 20 + 10,
-      duration: Math.random() * 15 + 10,
-      delay: Math.random() * 10,
-    }));
+    const newHearts = Array.from({ length: 25 }).map((_, i) => {
+      const size = Math.random() * 20 + 10;
+      // Hearts smaller than 16px are "in the background"
+      const isBackground = size < 16; 
+      
+      return {
+        id: i,
+        left: Math.random() * 100,
+        size: size,
+        duration: Math.random() * 15 + 10,
+        delay: Math.random() * 10,
+        // Background hearts get blurred and are more transparent
+        blur: isBackground ? Math.random() * 3 + 1 : 0,
+        opacity: isBackground ? 0.3 : 0.6,
+      };
+    });
     setHearts(newHearts);
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <motion.div 
+      style={{ y: parallaxY }} 
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+    >
       {hearts.map((heart) => (
         <motion.div
           key={heart.id}
-          className="absolute bottom-[-50px] text-white/60 drop-shadow-sm"
-          initial={{ y: 0, x: `${heart.left}vw`, rotate: 0, opacity: 0 }}
+          className="absolute bottom-[-50px] text-white"
+          style={{ 
+            opacity: heart.opacity,
+            filter: `blur(${heart.blur}px)` 
+          }}
+          initial={{ y: 0, x: `${heart.left}vw`, rotate: 0 }}
           animate={{
             y: '-120vh',
             rotate: 360,
-            opacity: [0, 0.8, 0.8, 0],
           }}
           transition={{
             duration: heart.duration,
@@ -39,6 +60,6 @@ export default function FloatingHearts() {
           </svg>
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
