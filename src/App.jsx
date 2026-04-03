@@ -4,6 +4,7 @@ import SectionWrapper from './components/SectionWrapper';
 import Section1 from './components/sections/Section1';
 import Section2 from './components/sections/Section2';
 import Section3 from './components/sections/Section3';
+import { Analytics } from "@vercel/analytics/next";
 
 function App() {
   const [unlockedSection, setUnlockedSection] = useState(1);
@@ -36,6 +37,7 @@ function App() {
           </div>
         )}
       </SectionWrapper>
+      <Analytics />
     </main>
   );
 }
